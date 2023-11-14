@@ -69,8 +69,27 @@ const createButtonGenerateRandomColors = () => {
   randomColorsBtn.addEventListener('click', addRandomColorsToPalette);
 };
 
+const createPixelBoard = () => {
+  const main = document.querySelector('main');
+
+  const pixelBoardSection = document.createElement('section');
+  pixelBoardSection.id = 'pixel-board';
+
+  for (let i = 0; i < 5; i += 1) {
+    for (let j = 0; j < 5; j += 1) {
+      const pixel = document.createElement('div');
+      pixel.classList.add('pixel');
+      pixelBoardSection.appendChild(pixel);
+    }
+    pixelBoardSection.appendChild(document.createElement('br'));
+  }
+
+  main.appendChild(pixelBoardSection);
+};
+
 window.onload = () => {
   createTitle();
   createColorPalette();
   createButtonGenerateRandomColors();
+  createPixelBoard();
 };
