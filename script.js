@@ -19,6 +19,20 @@ const getPaletteColorsFromLS = () => {
   }
 };
 
+const selectColor = () => {
+  const paletteColors = document.querySelectorAll('.color');
+
+  for (let i = 0; i < paletteColors.length; i += 1) {
+    paletteColors[i].addEventListener('click', (event) => {
+      const selectedColor = document.querySelector('.selected');
+      if (selectedColor) {
+        selectedColor.classList.remove('selected');
+      }
+      event.target.classList.add('selected');
+    });
+  }
+};
+
 const createColorPalette = () => {
   const main = document.querySelector('main');
 
@@ -34,6 +48,9 @@ const createColorPalette = () => {
   main.appendChild(colorPaletteSection);
 
   getPaletteColorsFromLS();
+
+  const paletteColors = document.querySelectorAll('.color');
+  paletteColors[0].classList.add('selected');
 };
 
 const generateRandomRgb = () => {
@@ -92,4 +109,5 @@ window.onload = () => {
   createColorPalette();
   createButtonGenerateRandomColors();
   createPixelBoard();
+  selectColor();
 };
