@@ -8,6 +8,17 @@ const createTitle = () => {
   header.appendChild(pageTitle);
 };
 
+const getPaletteColorsFromLS = () => {
+  const colors = document.querySelectorAll('.color');
+
+  const paletteColorsLS = JSON.parse(localStorage.getItem('colorPalette'));
+  if (paletteColorsLS != null) {
+    for (let i = 1; i < colors.length; i += 1) {
+      colors[i].style.backgroundColor = paletteColorsLS[i - 1];
+    }
+  }
+};
+
 const createColorPalette = () => {
   const main = document.querySelector('main');
 
@@ -21,6 +32,8 @@ const createColorPalette = () => {
   }
 
   main.appendChild(colorPaletteSection);
+
+  getPaletteColorsFromLS();
 };
 
 const generateRandomRgb = () => {
@@ -35,10 +48,14 @@ const generateRandomRgb = () => {
 
 const addRandomColorsToPalette = () => {
   const colors = document.querySelectorAll('.color');
+  const paletteColors = [];
 
-  for (let i = 1; i < 4; i += 1) {
+  for (let i = 1; i < colors.length; i += 1) {
     colors[i].style.backgroundColor = generateRandomRgb();
+    paletteColors.push(colors[i].style.backgroundColor);
   }
+
+  localStorage.setItem('colorPalette', JSON.stringify(paletteColors));
 };
 
 const createButtonGenerateRandomColors = () => {
