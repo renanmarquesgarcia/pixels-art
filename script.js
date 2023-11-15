@@ -77,11 +77,15 @@ const addRandomColorsToPalette = () => {
 
 const createButtonGenerateRandomColors = () => {
   const main = document.querySelector('main');
+  const btnssection = document.createElement('section');
+  btnssection.id = 'btns';
+
   const randomColorsBtn = document.createElement('button');
   randomColorsBtn.id = 'button-random-color';
   randomColorsBtn.innerText = 'Cores aleatórias';
 
-  main.appendChild(randomColorsBtn);
+  main.appendChild(btnssection);
+  btnssection.appendChild(randomColorsBtn);
 
   randomColorsBtn.addEventListener('click', addRandomColorsToPalette);
 };
@@ -120,10 +124,31 @@ const paintPixelBoard = () => {
   }
 };
 
+const clearPixelBoard = () => {
+  const pixels = document.querySelectorAll('.pixel');
+
+  for (let i = 0; i < pixels.length; i += 1) {
+    pixels[i].style.backgroundColor = 'white';
+  }
+};
+
+const createResetButon = () => {
+  const btnsSection = document.querySelector('#btns');
+
+  const resetButton = document.createElement('button');
+  resetButton.id = 'clear-board';
+  resetButton.innerText = 'Limpar';
+
+  btnsSection.appendChild(resetButton);
+
+  resetButton.addEventListener('click', clearPixelBoard);
+};
+
 window.onload = () => {
   createTitle();
   createColorPalette();
   createButtonGenerateRandomColors();
+  createResetButon();
   createPixelBoard();
   selectColor();
   paintPixelBoard();
