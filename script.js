@@ -88,14 +88,17 @@ const createButtonGenerateRandomColors = () => {
 
 const createPixelBoard = () => {
   const main = document.querySelector('main');
-
   const pixelBoardSection = document.createElement('section');
   pixelBoardSection.id = 'pixel-board';
+
+  let countPixels = 0;
 
   for (let i = 0; i < 5; i += 1) {
     for (let j = 0; j < 5; j += 1) {
       const pixel = document.createElement('div');
       pixel.classList.add('pixel');
+      countPixels += 1;
+      pixel.id += countPixels;
       pixelBoardSection.appendChild(pixel);
     }
     pixelBoardSection.appendChild(document.createElement('br'));
@@ -104,10 +107,24 @@ const createPixelBoard = () => {
   main.appendChild(pixelBoardSection);
 };
 
+const paintPixelBoard = () => {
+  const pixels = document.querySelectorAll('.pixel');
+
+  for (let i = 0; i < pixels.length; i += 1) {
+    pixels[i].addEventListener('click', (event) => {
+      const selectedColor = document.querySelector('.selected');
+      const compStyles = window.getComputedStyle(selectedColor);
+      const pixel = document.getElementById(`${event.target.id}`);
+      pixel.style.backgroundColor = compStyles.getPropertyValue('background-color');
+    });
+  }
+};
+
 window.onload = () => {
   createTitle();
   createColorPalette();
   createButtonGenerateRandomColors();
   createPixelBoard();
   selectColor();
+  paintPixelBoard();
 };
