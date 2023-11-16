@@ -90,15 +90,15 @@ const createButtonGenerateRandomColors = () => {
   randomColorsBtn.addEventListener('click', addRandomColorsToPalette);
 };
 
-const createPixelBoard = () => {
+const createPixelBoard = (size) => {
   const main = document.querySelector('main');
   const pixelBoardSection = document.createElement('section');
   pixelBoardSection.id = 'pixel-board';
 
   let countPixels = 0;
 
-  for (let i = 0; i < 5; i += 1) {
-    for (let j = 0; j < 5; j += 1) {
+  for (let i = 0; i < size; i += 1) {
+    for (let j = 0; j < size; j += 1) {
       const pixel = document.createElement('div');
       pixel.classList.add('pixel');
       countPixels += 1;
@@ -130,6 +130,8 @@ const clearPixelBoard = () => {
   for (let i = 0; i < pixels.length; i += 1) {
     pixels[i].style.backgroundColor = 'white';
   }
+
+  localStorage.removeItem('pixelBoard');
 };
 
 const createResetButon = () => {
@@ -144,12 +146,75 @@ const createResetButon = () => {
   resetButton.addEventListener('click', clearPixelBoard);
 };
 
+const setPaintedPixelBoardLS = () => {
+  const pixels = document.querySelectorAll('.pixel');
+  const paintedPixels = [];
+
+  for (let i = 0; i < pixels.length; i += 1) {
+    pixels[i].addEventListener('click', (event) => {
+      const color = event.target.style.backgroundColor;
+      const { id } = event.target;
+      paintedPixels.push({ color, id });
+      localStorage.setItem('pixelBoard', JSON.stringify(paintedPixels));
+    });
+  }
+};
+
+const getPaintedPixelBoardLS = () => {
+  const paintedPixels = JSON.parse(localStorage.getItem('pixelBoard'));
+
+  if (paintedPixels !== null) {
+    for (let i = 0; i < paintedPixels.length; i += 1) {
+      const pixel = document.getElementById(`${paintedPixels[i].id}`);
+      pixel.style.backgroundColor = paintedPixels[i].color;
+    }
+  }
+};
+
+const getNewBoardSize = () => {
+  const main = document.querySelector('main');
+  const input = document.getElementById('board-size');
+  const pixelBoard = document.getElementById('pixel-board');
+
+  if (input.value === '') {
+    alert('Board inválido!');
+  } else {
+    main.removeChild(pixelBoard);
+    createPixelBoard(Number(input.value));
+    paintPixelBoard();
+  }
+};
+
+const createElementsToDefineNewBoardSize = () => {
+  const main = document.querySelector('main');
+  const boardSizeSection = document.createElement('section');
+  boardSizeSection.id = 'board-size-section';
+
+  const boardSizeInput = document.createElement('input');
+  boardSizeInput.type = 'number';
+  boardSizeInput.min = 1;
+  boardSizeInput.id = 'board-size';
+  boardSizeInput.placeholder = 'Escolha o tamanho do quadro';
+
+  const btnGenerateBoard = document.createElement('button');
+  btnGenerateBoard.id = 'generate-board';
+  btnGenerateBoard.innerText = 'VQV';
+
+  main.appendChild(boardSizeSection);
+  boardSizeSection.appendChild(boardSizeInput);
+  boardSizeSection.appendChild(btnGenerateBoard);
+  btnGenerateBoard.addEventListener('click', getNewBoardSize);
+};
+
 window.onload = () => {
   createTitle();
   createColorPalette();
   createButtonGenerateRandomColors();
   createResetButon();
-  createPixelBoard();
+  createElementsToDefineNewBoardSize();
+  createPixelBoard(5);
   selectColor();
   paintPixelBoard();
+  setPaintedPixelBoardLS();
+  getPaintedPixelBoardLS();
 };
