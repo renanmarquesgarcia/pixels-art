@@ -90,15 +90,26 @@ const createButtonGenerateRandomColors = () => {
   randomColorsBtn.addEventListener('click', addRandomColorsToPalette);
 };
 
+const boardSizeValidation = (size) => {
+  let newSize = size;
+  if (size < 5) {
+    newSize = 5;
+  } else if (size > 50) {
+    newSize = 50;
+  }
+  return newSize;
+};
+
 const createPixelBoard = (size) => {
   const main = document.querySelector('main');
   const pixelBoardSection = document.createElement('section');
   pixelBoardSection.id = 'pixel-board';
 
   let countPixels = 0;
+  const sizeAfterValidation = boardSizeValidation(size);
 
-  for (let i = 0; i < size; i += 1) {
-    for (let j = 0; j < size; j += 1) {
+  for (let i = 0; i < sizeAfterValidation; i += 1) {
+    for (let j = 0; j < sizeAfterValidation; j += 1) {
       const pixel = document.createElement('div');
       pixel.classList.add('pixel');
       countPixels += 1;
@@ -107,7 +118,6 @@ const createPixelBoard = (size) => {
     }
     pixelBoardSection.appendChild(document.createElement('br'));
   }
-
   main.appendChild(pixelBoardSection);
 };
 
