@@ -10,8 +10,8 @@ const createTitle = () => {
 
 const getPaletteColorsFromLS = () => {
   const colors = document.querySelectorAll('.color');
-
   const paletteColorsLS = JSON.parse(localStorage.getItem('colorPalette'));
+
   if (paletteColorsLS != null) {
     for (let i = 1; i < colors.length; i += 1) {
       colors[i].style.backgroundColor = paletteColorsLS[i - 1];
@@ -91,12 +91,18 @@ const createButtonGenerateRandomColors = () => {
 };
 
 const boardSizeValidation = (size) => {
+  const boardSize = localStorage.getItem('boardSize');
   let newSize = size;
+
+  if (boardSize !== null) {
+    newSize = boardSize;
+  }
   if (size < 5) {
     newSize = 5;
   } else if (size > 50) {
     newSize = 50;
   }
+
   return newSize;
 };
 
@@ -181,6 +187,15 @@ const getPaintedPixelBoardLS = () => {
   }
 };
 
+const setBoardSizeLS = (size) => {
+  let boardSizeLS = size;
+
+  if (size < 5) boardSizeLS = 5;
+  else if (boardSizeLS > 50) boardSizeLS = 50;
+
+  return boardSizeLS;
+};
+
 const getNewBoardSize = () => {
   const main = document.querySelector('main');
   const input = document.getElementById('board-size');
@@ -190,6 +205,8 @@ const getNewBoardSize = () => {
     alert('Board inválido!');
   } else {
     main.removeChild(pixelBoard);
+    const boardSizeLS = setBoardSizeLS(Number(input.value));
+    localStorage.setItem('boardSize', boardSizeLS);
     createPixelBoard(Number(input.value));
     paintPixelBoard();
   }
