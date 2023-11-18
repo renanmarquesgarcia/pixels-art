@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+body {
+  background-color: #e2e2e2;
+}
+
 #title {
   text-align: center;
   padding: 20px;
@@ -53,7 +57,7 @@ main {
   margin-bottom: 20px;
 }
 
-#button-random-color , #clear-board , #generate-board {
+.btns {
   border: none;
   padding: 12px 16px;
   cursor: pointer;

@@ -2,7 +2,7 @@ const getPaletteColorsFromLS = () => {
   const colors = document.querySelectorAll('.color');
   const paletteColorsLS = JSON.parse(localStorage.getItem('colorPalette'));
 
-  if (paletteColorsLS != null) {
+  if (paletteColorsLS !== null) {
     for (let i = 1; i < colors.length; i += 1) {
       colors[i].style.backgroundColor = paletteColorsLS[i - 1];
     }
@@ -49,11 +49,11 @@ const addRandomColorsToPalette = () => {
 };
 
 const boardSizeValidation = (size) => {
-  const boardSize = localStorage.getItem('boardSize');
+  const boardSizeLS = localStorage.getItem('boardSize');
   let newSize = size;
 
-  if (boardSize !== null) {
-    newSize = boardSize;
+  if (boardSizeLS !== null) {
+    newSize = boardSizeLS;
   }
   if (size < 5) {
     newSize = 5;
@@ -136,7 +136,7 @@ const getPaintedPixelBoardLS = () => {
   }
 };
 
-const setBoardSizeLS = (size) => {
+const validationBoardSizeLS = (size) => {
   let boardSizeLS = size;
 
   if (size < 5) boardSizeLS = 5;
@@ -145,7 +145,7 @@ const setBoardSizeLS = (size) => {
   return boardSizeLS;
 };
 
-const getNewBoardSize = () => {
+const setNewBoardSize = () => {
   const main = document.querySelector('main');
   const generateBoardBtn = document.getElementById('generate-board');
 
@@ -156,9 +156,9 @@ const getNewBoardSize = () => {
       alert('Board inválido!');
     } else {
       main.removeChild(pixelBoard);
-      const boardSizeLS = setBoardSizeLS(Number(input.value));
+      const boardSizeLS = validationBoardSizeLS(Number(input.value));
       localStorage.setItem('boardSize', boardSizeLS);
-      createPixelBoard(Number(input.value));
+      createPixelBoard(JSON.parse(localStorage.getItem('boardSize')));
       paintPixelBoard();
     }
   });
@@ -168,7 +168,7 @@ window.onload = () => {
   getPaletteColorsFromLS();
   addRandomColorsToPalette();
   clearPixelBoard();
-  getNewBoardSize();
+  setNewBoardSize();
   createPixelBoard(5);
   selectColor();
   paintPixelBoard();
