@@ -2,6 +2,8 @@
 
 Neste projeto, a pessoa usuária escolhe uma cor em uma paleta de cores e pode pintar os pixels de um quadro com a cor escolhida, também é possível gerar cores aleatórias e definir o tamanho do quadro (5 - 50) 🎨 🧑‍🎨.
 
+Caso queira acessar o projeto pelo navegador: `https://renanmarquesgarcia.github.io/pixels-art/`
+
 # Orientações
 
 <details>
